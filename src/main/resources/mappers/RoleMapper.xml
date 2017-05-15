@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.common.mapper.RoleMapper">
+
+    <sql id="columns">
+        id,name,code,builtIn,description
+    </sql>
+
+    <!-- defined operation in base.core.mapper.BaseMapper-->
+    <select id="queryAll" resultType="Role">
+        select
+        <include refid="columns"/>
+        from t_role
+        <where>
+            <if test="filtersObj!=null">
+                <if test="filtersObj.groupOp.equalsIgnoreCase('AND')">
+                    <foreach collection="filtersObj.rules" item="item" open="(" separator='AND' close=")">
+                        <choose>
+                            <when test="'cn'.equals(item.op)">
+                                ${item.field} LIKE '%${item.data}%'
+                            </when>
+                            <when test="'eq'.equals(item.op)">
+                                ${item.field} = '${item.data}'
+                            </when>
+                        </choose>
+                    </foreach>
+                </if>
+                <if test="filtersObj.groupOp.equalsIgnoreCase('OR')">
+                    <foreach collection="filtersObj.rules" item="item" open="(" separator="OR" close=")">
+                        <choose>
+                            <when test="'cn'.equals(item.op)">
+                                ${item.field} LIKE '%${item.data}%'
+                            </when>
+                            <when test="'eq'.equals(item.op)">
+                                ${item.field} = '${item.data}'
+                            </when>
+                        </choose>
+                    </foreach>
+                </if>
+            </if>
+        </where>
+        <if test="sidx!=null">
+            ORDER BY ${sidx} ${sord}
+        </if>
+    </select>
+
+    <select id="findById" resultType="Role" parameterType="int">
+        select
+        <include refid="columns"/>
+        from t_role where id=#{id}
+    </select>
+
+    <select id="findByField" resultType="Role">
+        select
+        <include refid="columns"/>
+        from t_role where ${field}=#{value} order by #{orderBy} asc
+    </select>
+
+    <insert id="addEntry" parameterType="Role"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_role(name,code,builtIn,description)
+        values(#{name},#{code},#{builtIn},#{description})
+    </insert>
+
+    <update id="updateEntry" parameterType="User">
+        update t_role set
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="code!=null and code!=''">
+            code=#{code},
+        </if>
+        description = #{description},
+        builtIn = #{builtIn}
+        where
+        id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        delete from t_role where id=#{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from t_role where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <!-- end defined operation in base.core.mapper.BaseMapper-->
+
+
+</mapper>

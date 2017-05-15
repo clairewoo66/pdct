@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.PatientInfoMapper">
+    <resultMap id="PatientDetail" type="PatientInfo">
+        <result property="id" column="id"/>
+        <result property="fkhospitalid" column="fkhospitalid"/>
+        <result property="fkdiagnosisid" column="fkdiagnosisid"/>
+        <result property="followupid" column="followupid"/>
+        <association property="hospital" column="fkhospitalid" select="base.patient.mapper.HospitalMapper.findById"/>
+        <association property="diagnosisInfo" column="fkdiagnosisid"
+                     select="base.patient.mapper.DiagnosisInfoMapper.findById"/>
+        <association property="mmCureHistories" column="id"
+                     select="base.patient.mapper.MmCureHistoryMapper.listByPatientInfo"/>
+        <association property="hospitaledInfos" column="id"
+                     select="base.patient.mapper.HospitaledInfoMapper.listByPatientInfo"/>
+        <association property="followupInfo" column="followupid"
+                     select="base.patient.mapper.FollowupInfoMapper.findById"/>
+    </resultMap>
+    <sql id="columns">
+       id,acqDescription,fupDescription,patientId,fkhospitalid,birthday,gender,nation,place,maritalStatus,jobStatus,height,weight,bodysurfacearea,insuranceType,otherInsurance,eduLevel,ecogMark,karnofskyMark,smokingStatus,drinkStatus,fkdiagnosisid,followupid,nationOther,familyIncome,contactStatus,agreementStatus,followupStatus,acquisitionStatus,deleted,updateDate,livingState,deathReason,deathTime,createDate,gathererId,gathererName
+    </sql>
+
+    <sql id="insertColumns">
+       acqDescription,fupDescription,patientId,fkhospitalid,birthday,gender,nation,place,maritalStatus,jobStatus,height,weight,bodysurfacearea,insuranceType,otherInsurance,eduLevel,ecogMark,karnofskyMark,smokingStatus,drinkStatus,fkdiagnosisid,followupid,nationOther,familyIncome,contactStatus,agreementStatus,followupStatus,acquisitionStatus,deleted,updateDate,livingState,deathReason,deathTime,createDate,gathererId,gathererName
+    </sql>
+
+    <select id="findByPatientId" resultMap="PatientDetail">
+      SELECT * FROM t_patient_info WHERE patientId=#{patientId} AND fkhospitalid=#{hospitalId} AND deleted=0
+    </select>
+
+    <select id="findSimpleByPatientId" resultType="PatientInfo">
+        SELECT * FROM t_patient_info WHERE patientId=#{patientId} AND fkhospitalid=#{hospitalId} AND deleted=0
+    </select>
+
+    <select id="listAll" resultType="PatientInfo">
+        SELECT * FROM t_patient_info WHERE deleted=0
+        <if test="hospitalId!=null">
+           AND  fkhospitalid IN (${hospitalId})
+        </if>
+    </select>
+    <select id="queryAll" resultType="PatientInfo">
+        SELECT * FROM t_patient_info WHERE deleted=0
+        <if test="hospitalId!=null">
+            AND  fkhospitalid IN (${hospitalId})
+        </if>
+        <if test="query!=null">
+            AND  patientId LIKE #{query}
+        </if>
+        <if test="orderBy!=null">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+
+    <select id="countByPatientId" resultType="int">
+        SELECT COUNT(*) FROM t_patient_info WHERE patientId=#{patientId}
+    </select>
+
+
+    <insert id="addEntry" parameterType="PatientInfo"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_patient_info(
+        <include refid="insertColumns"/>
+        ) VALUES( #{acqDescription},#{fupDescription},#{patientId},#{fkhospitalid},#{birthday},#{gender},#{nation},#{place},#{maritalStatus},#{jobStatus},#{height},#{weight},#{bodysurfacearea},#{insuranceType},#{otherInsurance},
+        #{eduLevel},#{ecogMark},#{karnofskyMark},#{smokingStatus},#{drinkStatus},#{fkdiagnosisid},#{followupid},#{nationOther},#{familyIncome}
+        ,#{contactStatus},#{agreementStatus},#{followupStatus},#{acquisitionStatus},0,#{updateDate},#{livingState},#{deathReason},#{deathTime},#{createDate},#{gathererId},#{gathererName})
+    </insert>
+
+    <update id="setAgreementStatus" >
+        UPDATE t_patient_info SET
+        agreementStatus=#{status}
+        WHERE
+        patientId=#{patientId}
+    </update>
+    <update id="setFollowupStatus" >
+        UPDATE t_patient_info SET
+        followupStatus=#{status}
+        WHERE
+        patientId=#{patientId}
+    </update>
+
+    <update id="setContactStatus" >
+        UPDATE t_patient_info SET
+        contactStatus=#{status}
+        WHERE
+        patientId=#{patientId}
+    </update>
+    <update id="updateEntry" parameterType="PatientInfo">
+        UPDATE t_patient_info SET
+            acqDescription=#{acqDescription},
+            fupDescription=#{fupDescription},
+            patientId=#{patientId},
+            fkhospitalid=#{fkhospitalid},
+            birthday=#{birthday},
+            gender=#{gender},
+            nation=#{nation},
+            place=#{place},
+            maritalStatus=#{maritalStatus},
+            jobStatus=#{jobStatus},
+            height=#{height},
+            weight=#{weight},
+            bodysurfacearea=#{bodysurfacearea},
+            insuranceType=#{insuranceType},
+            otherInsurance=#{otherInsurance},
+            eduLevel=#{eduLevel},
+            ecogMark=#{ecogMark},
+            karnofskyMark=#{karnofskyMark},
+            smokingStatus=#{smokingStatus},
+            drinkStatus=#{drinkStatus},
+            fkdiagnosisid=#{fkdiagnosisid},
+            followupid=#{followupid},
+            nationOther=#{nationOther},
+            familyIncome=#{familyIncome},
+            contactStatus=#{contactStatus},
+            agreementStatus=#{agreementStatus},
+            followupStatus=#{followupStatus},
+            acquisitionStatus=#{acquisitionStatus},
+            deleted=#{deleted},
+            updateDate=#{updateDate},
+            livingState=#{livingState},
+            deathReason=#{deathReason},
+            deathTime=#{deathTime},
+            gathererName=#{gathererName},
+            gathererId=#{gathererId}
+      WHERE patientId=#{patientId}
+    </update>
+
+</mapper>

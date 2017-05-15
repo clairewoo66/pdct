@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.common.mapper.MenuMapper">
+    <resultMap id="MenuWithPermission" type="Menu">
+        <result property="id" column="id"/>
+        <association property="permissions" column="id" select="base.common.mapper.PermissionMapper.findByMenu"/>
+    </resultMap>
+
+    <select id="findById" resultMap="MenuWithPermission">
+        SELECT
+        <include refid="columns"/>
+        FROM t_menu WHERE id=#{id}
+    </select>
+
+    <select id="queryAll" resultType="Menu">
+        select
+        <include refid="columns"/>
+        from t_menu
+        <where>
+            <if test="filtersObj!=null">
+                <if test="filtersObj.groupOp.equalsIgnoreCase('AND')">
+                    <foreach collection="filtersObj.rules" item="item" open="(" separator='AND' close=")">
+                        <choose>
+                            <when test="'cn'.equals(item.op)">
+                                ${item.field} LIKE '%${item.data}%'
+                            </when>
+                            <when test="'eq'.equals(item.op)">
+                                ${item.field} = '${item.data}'
+                            </when>
+                        </choose>
+                    </foreach>
+                </if>
+                <if test="filtersObj.groupOp.equalsIgnoreCase('OR')">
+                    <foreach collection="filtersObj.rules" item="item" open="(" separator="OR" close=")">
+                        <choose>
+                            <when test="'cn'.equals(item.op)">
+                                ${item.field} LIKE '%${item.data}%'
+                            </when>
+                            <when test="'eq'.equals(item.op)">
+                                ${item.field} = '${item.data}'
+                            </when>
+                        </choose>
+                    </foreach>
+                </if>
+            </if>
+        </where>
+        <if test="sidx!=null">
+            ORDER BY ${sidx} ${sord}
+        </if>
+    </select>
+
+    <sql id="columns">
+        id,dataUrl,menuClass,menuName,menuCode,parentId,level,description
+    </sql>
+
+    <select id="queryAllPage" resultMap="MenuWithPermission">
+
+    </select>
+    <select id="listSubMenu" resultType="Menu">
+        select
+        <include refid="columns"/>
+        from t_menu where parentId=#{menuId}
+    </select>
+    <!--UNION (t_menu.id),dataUrl,menuClass,menuName,menuCode,parentId,level,description-->
+    <select id="listSubMenuByRole" resultType="Menu">
+        select
+        t_menu.*
+        from t_menu, t_role2menu where t_menu.parentId=#{parentId} AND t_role2menu.fkroleid=#{roleId} AND t_role2menu.fkmenuid=t_menu.id
+    </select>
+
+    <delete id="deleteAuthByRole">
+        DELETE FROM t_role2menu WHERE fkroleid=#{roleid}
+    </delete>
+    <delete id="deleteAuthByMenu">
+         DELETE FROM t_role2menu WHERE fkmenuid=#{menuid}
+    </delete>
+    <insert id="addAuthBind">
+        INSERT INTO t_role2menu(fkroleid,fkmenuid) VALUES (#{roleId},#{menuId})
+    </insert>
+</mapper>

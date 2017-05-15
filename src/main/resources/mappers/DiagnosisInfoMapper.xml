@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.DiagnosisInfoMapper">
+    <resultMap id="DiagnosisInfoDetail" type="DiagnosisInfo">
+        <result property="id" column="id"/>
+        <result property="diagnosisLaboratoryExaminationId" column="diagnosisLaboratoryExaminationId"/>
+        <result property="fkdiagnosisid" column="fkdiagnosisid"/>
+        <result property="followupid" column="followupid"/>
+        <association property="diagnosisLaboratoryExamination" column="diagnosisLaboratoryExaminationId"
+                     select="base.patient.mapper.DiagnosisLaboratoryExaminationMapper.findById"/>
+        <association property="diagnosisComplicationItems" column="id"
+                     select="base.patient.mapper.DiagnosisComplicationItemMapper.listByDiagnosisId"/>
+        <association property="diagnosisComplicationStatuses" column="id"
+                     select="base.patient.mapper.DiagnosisComplicationStatusMapper.listByDiagnosisId"/>
+        <association property="diagnosisFishItems" column="id"
+                     select="base.patient.mapper.DiagnosisFishItemMapper.listByDiagnosisId"/>
+        <association property="diagnosisIconographyItems" column="id"
+                     select="base.patient.mapper.DiagnosisIconographyItemMapper.listByDiagnosisId"/>
+        <association property="diagnosisParenchymaItems" column="id"
+                     select="base.patient.mapper.DiagnosisParenchymaItemMapper.listByDiagnosisId"/>
+        <association property="diagnosisPlasmacyteItems" column="id"
+                     select="base.patient.mapper.DiagnosisPlasmacyteItemMapper.listByDiagnosisId"/>
+    </resultMap>
+
+    <sql id="columns">
+    id,diagnosisSTXTime,diagnosisDate,invasionDiagnosis,clinicTypeDS,clinicTypeISS,diagnosisImmunoglobulinIgg,diagnosisImmunoglobulinIga,diagnosisImmunoglobulinIgm,diagnosisImmunoglobulinIgd,diagnosisImmunoglobulinIge,diagnosisImmunoglobulinLightChain,diagnosisImmunoglobulinDoubleClone,diagnosisImmunoglobulinSecretion,diagnosisImmunoglobulinEvaluate,diagnosisLaboratoryExaminationId,diagnosisFishStatus,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+    diagnosisSTXTime,diagnosisDate,invasionDiagnosis,clinicTypeDS,clinicTypeISS,diagnosisImmunoglobulinIgg,diagnosisImmunoglobulinIga,diagnosisImmunoglobulinIgm,diagnosisImmunoglobulinIgd,diagnosisImmunoglobulinIge,diagnosisImmunoglobulinLightChain,diagnosisImmunoglobulinDoubleClone,diagnosisImmunoglobulinSecretion,diagnosisImmunoglobulinEvaluate,diagnosisLaboratoryExaminationId,diagnosisFishStatus,createDate,updateDate,deleted
+    </sql>
+
+    <select id="findById" resultMap="DiagnosisInfoDetail">
+      SELECT * FROM t_diagnosis_info WHERE id=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="DiagnosisInfo"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_diagnosis_info(
+        <include refid="insertColumns"/>
+        ) VALUES(#{diagnosisSTXTime},#{diagnosisDate},#{invasionDiagnosis},#{clinicTypeDS},#{clinicTypeISS},
+        #{diagnosisImmunoglobulinIgg},#{diagnosisImmunoglobulinIga},#{diagnosisImmunoglobulinIgm},#{diagnosisImmunoglobulinIgd},
+        #{diagnosisImmunoglobulinIge},#{diagnosisImmunoglobulinLightChain},#{diagnosisImmunoglobulinDoubleClone},
+        #{diagnosisImmunoglobulinSecretion},#{diagnosisImmunoglobulinEvaluate},
+        #{diagnosisLaboratoryExaminationId},#{diagnosisFishStatus},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="DiagnosisInfo">
+        UPDATE t_diagnosis_info SET
+            diagnosisSTXTime=#{diagnosisSTXTime},
+            diagnosisDate=#{diagnosisDate},
+            invasionDiagnosis=#{invasionDiagnosis},
+            clinicTypeDS=#{clinicTypeDS},
+            clinicTypeISS=#{clinicTypeISS},
+            diagnosisImmunoglobulinIgg=#{diagnosisImmunoglobulinIgg},
+            diagnosisImmunoglobulinIga=#{diagnosisImmunoglobulinIga},
+            diagnosisImmunoglobulinIgm=#{diagnosisImmunoglobulinIgm},
+            diagnosisImmunoglobulinIgd=#{diagnosisImmunoglobulinIgd},
+            diagnosisImmunoglobulinIge=#{diagnosisImmunoglobulinIge},
+            diagnosisImmunoglobulinLightChain=#{diagnosisImmunoglobulinLightChain},
+            diagnosisImmunoglobulinDoubleClone=#{diagnosisImmunoglobulinDoubleClone},
+            diagnosisImmunoglobulinSecretion=#{diagnosisImmunoglobulinSecretion},
+            diagnosisImmunoglobulinEvaluate=#{diagnosisImmunoglobulinEvaluate},
+            diagnosisLaboratoryExaminationId=#{diagnosisLaboratoryExaminationId},
+            diagnosisFishStatus=#{diagnosisFishStatus},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+      WHERE   id=#{id}
+    </update>
+
+</mapper>

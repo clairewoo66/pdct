@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.HospitaledLaboratoryExaminationMapper">
+
+    <sql id="columns">
+        id,hospitalExaminationTopMP,hospitalExaminationMPResult,hospitalExaminationNStatus,hospitalExaminationXueStatus,hospitalExaminationXIgg,hospitalExaminationXIga,hospitalExaminationXIgm,hospitalExaminationXIge,hospitalExaminationXIgd,hospitalExaminationXkLightChain,hospitalExaminationXnLightChain,hospitalExaminationNnStatus,hospitalExaminationNkLightChain,hospitalExaminationNnLightChain,hospitalExaminationNIgg,hospitalExaminationNIga,hospitalExaminationNIgm,hospitalExaminationNIge,hospitalExaminationNIgd,hospitalExaminationXkLightChainStatus,hospitalExaminationXYkLightChain,hospitalExaminationXYnLightChain,hospitalExaminationXYknLightChain,hospitalExaminationNMkLightChain,hospitalExaminationNMnLightChain,hospitalExaminationH24,hospitalTotalProtein,hospitalGlobulinProtein,hospitalWhiteProtein,hospitalAminotransferase,hospitalAst,hospitalGgt,hospitalLdh,hospitalUrea,hospitalCr,hospitalCa,hospitalPhoshatase,hospitalBeta2GlobulinProtein,hospitalWhiteBloodCell,hospitalNeutrophils,hospitalLymphocyte,hospitalHemoglobin,hospitalPlateletCount,createDate,updateDate,deleted
+  </sql>
+
+    <sql id="insertColumns">
+      hospitalExaminationTopMP,hospitalExaminationMPResult, hospitalExaminationNStatus,hospitalExaminationXueStatus,hospitalExaminationXIgg,hospitalExaminationXIga,hospitalExaminationXIgm,hospitalExaminationXIge,hospitalExaminationXIgd,hospitalExaminationXkLightChain,hospitalExaminationXnLightChain,hospitalExaminationNnStatus,hospitalExaminationNkLightChain,hospitalExaminationNnLightChain,hospitalExaminationNIgg,hospitalExaminationNIga,hospitalExaminationNIgm,hospitalExaminationNIge,hospitalExaminationNIgd,hospitalExaminationXkLightChainStatus,hospitalExaminationXYkLightChain,hospitalExaminationXYnLightChain,hospitalExaminationXYknLightChain,hospitalExaminationNMkLightChain,hospitalExaminationNMnLightChain,hospitalExaminationH24,hospitalTotalProtein,hospitalGlobulinProtein,hospitalWhiteProtein,hospitalAminotransferase,hospitalAst,hospitalGgt,hospitalLdh,hospitalUrea,hospitalCr,hospitalCa,hospitalPhoshatase,hospitalBeta2GlobulinProtein,hospitalWhiteBloodCell,hospitalNeutrophils,hospitalLymphocyte,hospitalHemoglobin,hospitalPlateletCount,createDate,updateDate,deleted
+  </sql>
+
+    <select id="findById" resultType="HospitaledLaboratoryExamination">
+        SELECT * FROM t_hospitaled_laboratory_examination WHERE id=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="HospitaledLaboratoryExamination"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_hospitaled_laboratory_examination(
+        <include refid="insertColumns"/>
+        ) VALUES(#{hospitalExaminationTopMP},#{hospitalExaminationMPResult},#{hospitalExaminationNStatus},#{hospitalExaminationXueStatus},#{hospitalExaminationXIgg},#{hospitalExaminationXIga},#{hospitalExaminationXIgm},#{hospitalExaminationXIge},
+        #{hospitalExaminationXIgd},#{hospitalExaminationXkLightChain},#{hospitalExaminationXnLightChain},#{hospitalExaminationNnStatus},
+        #{hospitalExaminationNkLightChain},#{hospitalExaminationNnLightChain},#{hospitalExaminationNIgg},#{hospitalExaminationNIga},#{hospitalExaminationNIgm},
+        #{hospitalExaminationNIge},#{hospitalExaminationNIgd},#{hospitalExaminationXkLightChainStatus},#{hospitalExaminationXYkLightChain},
+        #{hospitalExaminationXYnLightChain},#{hospitalExaminationXYknLightChain},#{hospitalExaminationNMkLightChain},#{hospitalExaminationNMnLightChain},
+        #{hospitalExaminationH24},#{hospitalTotalProtein},#{hospitalGlobulinProtein},#{hospitalWhiteProtein},#{hospitalAminotransferase},#{hospitalAst},
+        #{hospitalGgt},#{hospitalLdh},#{hospitalUrea},#{hospitalCr},#{hospitalCa},#{hospitalPhoshatase},#{hospitalBeta2GlobulinProtein},#{hospitalWhiteBloodCell},
+        #{hospitalNeutrophils},#{hospitalLymphocyte},#{hospitalHemoglobin},#{hospitalPlateletCount},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="HospitaledLaboratoryExamination">
+        UPDATE t_hospitaled_laboratory_examination SET
+            hospitalExaminationTopMP=#{hospitalExaminationTopMP},
+            hospitalExaminationMPResult=#{hospitalExaminationMPResult},
+            hospitalExaminationNStatus=#{hospitalExaminationNStatus},
+            hospitalExaminationXueStatus=#{hospitalExaminationXueStatus},
+            hospitalExaminationXIgg=#{hospitalExaminationXIgg},
+            hospitalExaminationXIga=#{hospitalExaminationXIga},
+            hospitalExaminationXIgm=#{hospitalExaminationXIgm},
+            hospitalExaminationXIge=#{hospitalExaminationXIge},
+            hospitalExaminationXIgd=#{hospitalExaminationXIgd},
+            hospitalExaminationXkLightChain=#{hospitalExaminationXkLightChain},
+            hospitalExaminationXnLightChain=#{hospitalExaminationXnLightChain},
+            hospitalExaminationNnStatus=#{hospitalExaminationNnStatus},
+            hospitalExaminationNkLightChain=#{hospitalExaminationNkLightChain},
+            hospitalExaminationNnLightChain=#{hospitalExaminationNnLightChain},
+            hospitalExaminationNIgg=#{hospitalExaminationNIgg},
+            hospitalExaminationNIga=#{hospitalExaminationNIga},
+            hospitalExaminationNIgm=#{hospitalExaminationNIgm},
+            hospitalExaminationNIge=#{hospitalExaminationNIge},
+            hospitalExaminationNIgd=#{hospitalExaminationNIgd},
+            hospitalExaminationXkLightChainStatus=#{hospitalExaminationXkLightChainStatus},
+            hospitalExaminationXYkLightChain=#{hospitalExaminationXYkLightChain},
+            hospitalExaminationXYnLightChain=#{hospitalExaminationXYnLightChain},
+            hospitalExaminationXYknLightChain=#{hospitalExaminationXYknLightChain},
+            hospitalExaminationNMkLightChain=#{hospitalExaminationNMkLightChain},
+            hospitalExaminationNMnLightChain=#{hospitalExaminationNMnLightChain},
+            hospitalExaminationH24=#{hospitalExaminationH24},
+            hospitalTotalProtein=#{hospitalTotalProtein},
+            hospitalGlobulinProtein=#{hospitalGlobulinProtein},
+            hospitalWhiteProtein=#{hospitalWhiteProtein},
+            hospitalAminotransferase=#{hospitalAminotransferase},
+            hospitalAst=#{hospitalAst},
+            hospitalGgt=#{hospitalGgt},
+            hospitalLdh=#{hospitalLdh},
+            hospitalUrea=#{hospitalUrea},
+            hospitalCr=#{hospitalCr},
+            hospitalCa=#{hospitalCa},
+            hospitalPhoshatase=#{hospitalPhoshatase},
+            hospitalBeta2GlobulinProtein=#{hospitalBeta2GlobulinProtein},
+            hospitalWhiteBloodCell=#{hospitalWhiteBloodCell},
+            hospitalNeutrophils=#{hospitalNeutrophils},
+            hospitalLymphocyte=#{hospitalLymphocyte},
+            hospitalHemoglobin=#{hospitalHemoglobin},
+            hospitalPlateletCount=#{hospitalPlateletCount},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+
+</mapper>

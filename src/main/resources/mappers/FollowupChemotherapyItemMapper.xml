@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.FollowupChemotherapyItemMapper">
+
+    <sql id="columns">
+        id,name,consumption,consumptionSize,frequency,buyOuter,followupId,`index`,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+        name,consumption,consumptionSize,frequency,buyOuter,followupId,`index`,createDate,updateDate,deleted
+    </sql>
+
+    <select id="listByFollowupId" resultType="FollowupChemotherapyItem">
+        SELECT * FROM t_followup_chemotherapy_item WHERE followupId=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="FollowupChemotherapyItem"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_followup_chemotherapy_item(
+        <include refid="insertColumns"/>
+        ) VALUES(#{name},#{consumption},#{consumptionSize},#{frequency},#{buyOuter},#{followupId},#{index},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="FollowupChemotherapyItem">
+        UPDATE t_followup_chemotherapy_item SET
+            name=#{name},
+            consumption=#{consumption},
+            consumptionSize=#{consumptionSize},
+            frequency=#{frequency},
+            buyOuter=#{buyOuter},
+            followupId=#{followupId},
+            `index`=#{index},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from t_followup_chemotherapy_item where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.DiagnosisIconographyItemMapper">
+
+    <sql id="columns">
+        id,item,position,count,diagnosisId,`index`,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+        item,position,count,diagnosisId,`index`,createDate,updateDate,deleted
+    </sql>
+
+    <select id="listByDiagnosisId" resultType="DiagnosisIconographyItem">
+        SELECT * FROM t_diagnosis_iconography_item WHERE diagnosisId=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="DiagnosisIconographyItem"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_diagnosis_iconography_item(
+        <include refid="insertColumns"/>
+        ) VALUES(#{item},#{position},#{count},#{diagnosisId},#{index},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="DiagnosisIconographyItem">
+        UPDATE t_diagnosis_iconography_item SET
+            item=#{item},
+            position=#{position},
+            count=#{count},
+            diagnosisId=#{diagnosisId},
+            `index`=#{index},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+
+    <delete id="deleteByIds">
+        delete from t_diagnosis_iconography_item where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

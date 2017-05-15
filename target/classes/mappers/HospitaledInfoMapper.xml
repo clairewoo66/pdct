@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.HospitaledInfoMapper">
+    <resultMap id="HospitaledInfoDetail" type="HospitaledInfo">
+        <result property="id" column="id"/>
+        <result property="fkcostid" column="fkcostid"/>
+        <result property="hospitaledLaboratoryExaminationId" column="hospitaledLaboratoryExaminationId"/>
+
+        <association property="hospitaledCost" column="fkcostid"
+                     select="base.patient.mapper.HospitaledCostMapper.findById"/>
+
+        <association property="hospitaledLaboratoryExamination" column="hospitaledLaboratoryExaminationId"
+                     select="base.patient.mapper.HospitaledLaboratoryExaminationMapper.findById"/>
+
+        <association property="complicationStatusList" column="id"
+                     select="base.patient.mapper.HospitaledComplicationStatusMapper.listByHospitaledInfo"/>
+
+        <association property="hospitaledPlasmacyteItems" column="id"
+                     select="base.patient.mapper.HospitaledPlasmacyteItemMapper.listByHospitaledInfo"/>
+
+        <association property="iconographyItems" column="id"
+                     select="base.patient.mapper.HospitaledIconographyItemMapper.listByHospitaledInfo"/>
+
+        <association property="hospitaledParenchymaItems" column="id"
+                     select="base.patient.mapper.HospitaledParenchymaItemMapper.listByHospitaledInfo"/>
+
+        <association property="badinformationItems" column="id"
+                     select="base.patient.mapper.HospitaledBadinformationItemMapper.listByHospitaledInfo"/>
+
+        <association property="hospitaledChemotherapyItems" column="id"
+                     select="base.patient.mapper.HospitaledChemotherapyItemMapper.listByHospitaledInfo"/>
+
+        <association property="hospitaledSupportItems" column="id"
+                     select="base.patient.mapper.HospitaledSupportItemMapper.listByHospitaledInfo"/>
+        <association property="hospitaledCost" column="fkcostid"
+                     select="base.patient.mapper.HospitaledCostMapper.findById"/>
+
+    </resultMap>
+    <sql id="columns">
+        id,changeCurePlanStep,changeCurePlanStepOther,hospitalCurePlanStep,hospitalCurePlanStepOther,startTime,endTime,ecogMark,karnofskyMark,invasionDiagnosis,clinicalStagesDS,clinicalStagesISS,curePlan,hospitalCureCycle,changeCurePlan,curePlanAlter,changePlanReason,evaluateAfterCure,evaluateRule,evaluateRuleOther,evaluateResult,evaluateResultOther,adrAfterCure,fkcostid,createDate,updateDate,deleted,hospitaledLaboratoryExaminationId,patientId,hospitalweight,hospitalbodysurfacearea,hostipalstemcelltransplantation,hostipalstemcelltransplantationDate,livingState,deathDate,deathReason,badInformationStatus
+ </sql>
+
+    <sql id="insertColumns">
+       changeCurePlanStep,changeCurePlanStepOther, hospitalCurePlanStep,hospitalCurePlanStepOther,startTime,endTime,ecogMark,karnofskyMark,invasionDiagnosis,clinicalStagesDS,clinicalStagesISS,curePlan,hospitalCureCycle,changeCurePlan,curePlanAlter,changePlanReason,evaluateAfterCure,evaluateRule,evaluateRuleOther,evaluateResult,evaluateResultOther,adrAfterCure,fkcostid,createDate,updateDate,deleted,hospitaledLaboratoryExaminationId,patientId,hospitalweight,hospitalbodysurfacearea,hostipalstemcelltransplantation,hostipalstemcelltransplantationDate,livingState,deathDate,deathReason,badInformationStatus
+    </sql>
+
+    <select id="listByPatientInfo" resultMap="HospitaledInfoDetail">
+        SELECT * FROM t_hospitalized_info WHERE patientId=#{patientId} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="HospitaledInfo"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_hospitalized_info(
+        <include refid="insertColumns"/>
+        ) VALUES(#{changeCurePlanStep},#{changeCurePlanStepOther},#{hospitalCurePlanStep},#{hospitalCurePlanStepOther},#{startTime},#{endTime},#{ecogMark},#{karnofskyMark},#{invasionDiagnosis},#{clinicalStagesDS},#{clinicalStagesISS},#{curePlan},#{hospitalCureCycle},
+        #{changeCurePlan},#{curePlanAlter},#{changePlanReason},#{evaluateAfterCure},#{evaluateRule},#{evaluateRuleOther},#{evaluateResult},#{evaluateResultOther},
+        #{adrAfterCure},#{fkcostid},#{createDate},#{updateDate},#{deleted},#{hospitaledLaboratoryExaminationId},#{patientId},#{hospitalweight},#{hospitalbodysurfacearea},
+        #{hostipalstemcelltransplantation},#{hostipalstemcelltransplantationDate},#{livingState},#{deathDate},#{deathReason},#{badInformationStatus})
+    </insert>
+
+    <update id="updateEntry" parameterType="HospitaledInfo">
+        UPDATE t_hospitalized_info SET
+           changeCurePlanStep=#{changeCurePlanStep},
+           changeCurePlanStepOther=#{changeCurePlanStepOther},
+           hospitalCurePlanStep=#{hospitalCurePlanStep},
+           hospitalCurePlanStepOther=#{hospitalCurePlanStepOther},
+           startTime=#{startTime},
+            endTime=#{endTime},
+            ecogMark=#{ecogMark},
+            karnofskyMark=#{karnofskyMark},
+            invasionDiagnosis=#{invasionDiagnosis},
+            clinicalStagesDS=#{clinicalStagesDS},
+            clinicalStagesISS=#{clinicalStagesISS},
+            curePlan=#{curePlan},
+            hospitalCureCycle=#{hospitalCureCycle},
+            changeCurePlan=#{changeCurePlan},
+            curePlanAlter=#{curePlanAlter},
+            changePlanReason=#{changePlanReason},
+            evaluateAfterCure=#{evaluateAfterCure},
+            evaluateRule=#{evaluateRule},
+            evaluateRuleOther=#{evaluateRuleOther},
+            evaluateResult=#{evaluateResult},
+            evaluateResultOther=#{evaluateResultOther},
+            adrAfterCure=#{adrAfterCure},
+            fkcostid=#{fkcostid},
+            updateDate=#{updateDate},
+            deleted=#{deleted},
+            hospitaledLaboratoryExaminationId=#{hospitaledLaboratoryExaminationId},
+            patientId=#{patientId},
+            hospitalweight=#{hospitalweight},
+            hospitalbodysurfacearea=#{hospitalbodysurfacearea},
+            hostipalstemcelltransplantation=#{hostipalstemcelltransplantation},
+            hostipalstemcelltransplantationDate=#{hostipalstemcelltransplantationDate},
+            livingState=#{livingState},
+            deathDate=#{deathDate},
+            deathReason=#{deathReason},
+            badInformationStatus=#{badInformationStatus}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteByIds">
+        delete from t_hospitalized_info where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

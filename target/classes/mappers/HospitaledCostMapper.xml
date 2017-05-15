@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.HospitaledCostMapper">
+    <resultMap id="HospitaledCostDetail" type="HospitaledCost">
+        <result property="costId" column="costId"/>
+        <result property="id" column="id"/>
+        <association property="otherHospitalCost" column="id"
+                     select="base.patient.mapper.HospitaledCostOtherItemMapper.listByCostId"/>
+
+    </resultMap>
+    <sql id="insertColumns">
+        westernMed,cure,`check`,inspect,material,bed,food,nursing,other,total,self,`outer`,createDate,updateDate,deleted,otherCostName,otherCostValue
+    </sql>
+    <select id="findById" resultMap="HospitaledCostDetail">
+        SELECT
+        *
+        FROM t_hospitaled_cost WHERE id=#{id}
+    </select>
+
+    <insert id="addEntry" parameterType="HospitaledCost"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_hospitaled_cost(
+        <include refid="insertColumns"/>
+        ) VALUES(#{westernMed},#{cure},#{check},#{inspect},#{material},#{bed},#{food},#{nursing},#{other},#{total},#{self},#{outer},#{createDate},#{updateDate},#{deleted},#{otherCostName},#{otherCostValue})
+    </insert>
+
+    <update id="updateEntry" parameterType="HospitaledCost">
+        UPDATE t_hospitaled_cost SET
+            westernMed=#{westernMed},
+            cure=#{cure},
+            `check`=#{check},
+            inspect=#{inspect},
+            material=#{material},
+            bed=#{bed},
+            food=#{food},
+            nursing=#{nursing},
+            other=#{other},
+            total=#{total},
+            self=#{self},
+            otherCostName=#{otherCostName},
+            otherCostValue=#{otherCostValue},
+            `outer`=#{outer},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+</mapper>

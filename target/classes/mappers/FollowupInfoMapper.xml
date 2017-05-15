@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.FollowupInfoMapper">
+    <resultMap id="FollowupInfoDetail" type="FollowupInfo">
+        <result property="id" column="id"/>
+        <result property="laboratoryId" column="laboratoryId"/>
+
+        <association property="followupLaboratoryExamination" column="laboratoryId"
+                     select="base.patient.mapper.FollowupLaboratoryExaminationMapper.findById"/>
+
+        <association property="followupBadinformationItems" column="id"
+                     select="base.patient.mapper.FollowupBadinformationItemMapper.listByFollowupId"/>
+        <association property="followupChemotherapyItems" column="id"
+                     select="base.patient.mapper.FollowupChemotherapyItemMapper.listByFollowupId"/>
+        <association property="followupComplicationStatuses" column="id"
+                     select="base.patient.mapper.FollowupComplicationStatusMapper.listByFollowupId"/>
+        <association property="followupParenchymaItems" column="id"
+                     select="base.patient.mapper.FollowupParenchymaItemMapper.listByFollowupId"/>
+        <association property="followupPlasmacyteItems" column="id"
+                     select="base.patient.mapper.FollowupPlasmacyteItemMapper.listByFollowupId"/>
+        <association property="followupIconographyItems" column="id"
+                     select="base.patient.mapper.FollowupIconographyItemMapper.listByFollowupId"/>
+        <association property="otherCostItems" column="id"
+                     select="base.patient.mapper.FollowupCostOtherMapper.listByFolowupId"/>
+
+    </resultMap>
+    <sql id="columns">
+        id,followupProgress,curePlanStep,curePlanStepOther,laboratoryId,invasionDiagnosis,clinicalStagesDS,clinicalStagesISS,inHelpProject,helpProjectName,helpProjectStartDate,helpProjectEndDate,evaluateStatus,evaluateRule,evaluateRuleOther,evaluateResult,evaluateResultOther,times,timesEmergency,lastCostTotal,lastCostMed,lastCostNonMed,lastEmergencyCostToal,lastEmergencyCostMed,lastEmergencyCostNonMed,registrationCost,registrationRate,laboratoryCost,laboratoryRate,iconographyCost,iconographyRate,drugCost,drugRate,otherCostName,otherCost,otherRate,totalCost,totalRate,createDate,updateDate,deleted,badInformationStatus,followupsites
+    </sql>
+
+    <sql id="insertColumns">
+      followupProgress,curePlanStep,curePlanStepOther,laboratoryId,invasionDiagnosis,clinicalStagesDS,clinicalStagesISS,inHelpProject,helpProjectName,helpProjectStartDate,helpProjectEndDate,evaluateStatus,evaluateRule,evaluateRuleOther,evaluateResult,evaluateResultOther,times,timesEmergency,lastCostTotal,lastCostMed,lastCostNonMed,lastEmergencyCostToal,lastEmergencyCostMed,lastEmergencyCostNonMed,registrationCost,registrationRate,laboratoryCost,laboratoryRate,iconographyCost,iconographyRate,drugCost,drugRate,otherCostName,otherCost,otherRate,totalCost,totalRate,createDate,updateDate,deleted,badInformationStatus,followupsites
+    </sql>
+
+    <select id="findById" resultMap="FollowupInfoDetail">
+        SELECT * FROM t_followup_info WHERE id=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="FollowupInfo"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_followup_info(
+        <include refid="insertColumns"/>
+        ) VALUES( #{followupProgress},#{curePlanStep},#{curePlanStepOther},#{laboratoryId},#{invasionDiagnosis},#{clinicalStagesDS},#{clinicalStagesISS},#{inHelpProject},#{helpProjectName},#{helpProjectStartDate},
+        #{helpProjectEndDate},#{evaluateStatus},#{evaluateRule},#{evaluateRuleOther},#{evaluateResult},#{evaluateResultOther},#{times},#{timesEmergency},
+        #{lastCostTotal},#{lastCostMed},#{lastCostNonMed},#{lastEmergencyCostToal},#{lastEmergencyCostMed},#{lastEmergencyCostNonMed},#{registrationCost},
+        #{registrationRate},#{laboratoryCost},#{laboratoryRate},#{iconographyCost},#{iconographyRate},#{drugCost},#{drugRate},#{otherCostName},#{otherCost},#{otherRate},
+        #{totalCost},#{totalRate},#{createDate},#{updateDate},#{deleted},#{badInformationStatus},#{followupsites})
+    </insert>
+
+    <update id="updateEntry" parameterType="FollowupInfo">
+        UPDATE t_followup_info SET
+            followupProgress=#{followupProgress},
+            laboratoryId=#{laboratoryId},
+            curePlanStep=#{curePlanStep},
+            curePlanStepOther=#{curePlanStepOther},
+            invasionDiagnosis=#{invasionDiagnosis},
+            clinicalStagesDS=#{clinicalStagesDS},
+            clinicalStagesISS=#{clinicalStagesISS},
+            inHelpProject=#{inHelpProject},
+            helpProjectName=#{helpProjectName},
+            helpProjectStartDate=#{helpProjectStartDate},
+            helpProjectEndDate=#{helpProjectEndDate},
+            evaluateStatus=#{evaluateStatus},
+            evaluateRule=#{evaluateRule},
+            evaluateRuleOther=#{evaluateRuleOther},
+            evaluateResult=#{evaluateResult},
+            evaluateResultOther=#{evaluateResultOther},
+            times=#{times},
+            timesEmergency=#{timesEmergency},
+            lastCostTotal=#{lastCostTotal},
+            lastCostMed=#{lastCostMed},
+            lastCostNonMed=#{lastCostNonMed},
+            lastEmergencyCostToal=#{lastEmergencyCostToal},
+            lastEmergencyCostMed=#{lastEmergencyCostMed},
+            lastEmergencyCostNonMed=#{lastEmergencyCostNonMed},
+            registrationCost=#{registrationCost},
+            registrationRate=#{registrationRate},
+            laboratoryCost=#{laboratoryCost},
+            laboratoryRate=#{laboratoryRate},
+            iconographyCost=#{iconographyCost},
+            iconographyRate=#{iconographyRate},
+            drugCost=#{drugCost},
+            drugRate=#{drugRate},
+            otherCost=#{otherCost},
+            otherCostName=#{otherCostName},
+            otherRate=#{otherRate},
+            totalCost=#{totalCost},
+            totalRate=#{totalRate},
+            updateDate=#{updateDate},
+            deleted=#{deleted},
+            badInformationStatus=#{badInformationStatus},
+            followupsites=#{followupsites}
+        WHERE id=#{id}
+    </update>
+
+</mapper>

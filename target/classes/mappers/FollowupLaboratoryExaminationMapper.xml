@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.FollowupLaboratoryExaminationMapper">
+
+    <sql id="columns">
+        id,followupExaminationNMStatus,followupExaminationXueStatus,followupExaminationXIgg,followupExaminationXIga,followupExaminationXIgm,followupExaminationXIge,followupExaminationXIgd,followupExaminationXkLightChain,followupExaminationXnLightChain,followupExaminationNnStatus,followupExaminationNkLightChain,followupExaminationNnLightChain,followupExaminationNIgg,followupExaminationNIga,followupExaminationNIgm,followupExaminationNIge,followupExaminationNIgd,followupExaminationXkLightChainStatus,followupExaminationXYkLightChain,followupExaminationXYnLightChain,followupExaminationXYknLightChain,followupExaminationNMkLightChain,followupExaminationNMnLightChain,followupExaminationH24,followupTotalProtein,followupGlobulinProtein,followupWhiteProtein,followupAminotransferase,followupAst,followupGgt,followupLdh,followupUrea,followupCr,followupCa,followupPhoshatase,followupBeta2GlobulinProtein,followupWhiteBloodCell,followupNeutrophils,followupLymphocyte,followupHemoglobin,followupPlateletCount,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+        followupExaminationNMStatus,followupExaminationXueStatus,followupExaminationXIgg,followupExaminationXIga,followupExaminationXIgm,followupExaminationXIge,followupExaminationXIgd,followupExaminationXkLightChain,followupExaminationXnLightChain,followupExaminationNnStatus,followupExaminationNkLightChain,followupExaminationNnLightChain,followupExaminationNIgg,followupExaminationNIga,followupExaminationNIgm,followupExaminationNIge,followupExaminationNIgd,followupExaminationXkLightChainStatus,followupExaminationXYkLightChain,followupExaminationXYnLightChain,followupExaminationXYknLightChain,followupExaminationNMkLightChain,followupExaminationNMnLightChain,followupExaminationH24,followupTotalProtein,followupGlobulinProtein,followupWhiteProtein,followupAminotransferase,followupAst,followupGgt,followupLdh,followupUrea,followupCr,followupCa,followupPhoshatase,followupBeta2GlobulinProtein,followupWhiteBloodCell,followupNeutrophils,followupLymphocyte,followupHemoglobin,followupPlateletCount,createDate,updateDate,deleted
+    </sql>
+
+    <select id="findById" resultType="FollowupLaboratoryExamination">
+        SELECT * FROM t_followup_laboratory_examination WHERE id=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="FollowupLaboratoryExamination"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_followup_laboratory_examination(
+        <include refid="insertColumns"/>
+        ) VALUES(#{followupExaminationNMStatus},#{followupExaminationXueStatus},#{followupExaminationXIgg},#{followupExaminationXIga},#{followupExaminationXIgm},
+        #{followupExaminationXIge},#{followupExaminationXIgd},#{followupExaminationXkLightChain},#{followupExaminationXnLightChain},
+        #{followupExaminationNnStatus},#{followupExaminationNkLightChain},#{followupExaminationNnLightChain},#{followupExaminationNIgg},
+        #{followupExaminationNIga},#{followupExaminationNIgm},#{followupExaminationNIge},#{followupExaminationNIgd},#{followupExaminationXkLightChainStatus},
+        #{followupExaminationXYkLightChain},#{followupExaminationXYnLightChain},#{followupExaminationXYknLightChain},#{followupExaminationNMkLightChain},
+        #{followupExaminationNMnLightChain},#{followupExaminationH24},#{followupTotalProtein},#{followupGlobulinProtein},#{followupWhiteProtein},
+        #{followupAminotransferase},#{followupAst},#{followupGgt},#{followupLdh},#{followupUrea},#{followupCr},#{followupCa},#{followupPhoshatase},
+        #{followupBeta2GlobulinProtein},#{followupWhiteBloodCell},#{followupNeutrophils},#{followupLymphocyte},#{followupHemoglobin},
+        #{followupPlateletCount},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="FollowupLaboratoryExamination">
+        UPDATE t_followup_laboratory_examination SET
+            followupExaminationNMStatus=#{followupExaminationNMStatus},
+            followupExaminationXueStatus=#{followupExaminationXueStatus},
+            followupExaminationXIgg=#{followupExaminationXIgg},
+            followupExaminationXIga=#{followupExaminationXIga},
+            followupExaminationXIgm=#{followupExaminationXIgm},
+            followupExaminationXIge=#{followupExaminationXIge},
+            followupExaminationXIgd=#{followupExaminationXIgd},
+            followupExaminationXkLightChain=#{followupExaminationXkLightChain},
+            followupExaminationXnLightChain=#{followupExaminationXnLightChain},
+            followupExaminationNnStatus=#{followupExaminationNnStatus},
+            followupExaminationNkLightChain=#{followupExaminationNkLightChain},
+            followupExaminationNnLightChain=#{followupExaminationNnLightChain},
+            followupExaminationNIgg=#{followupExaminationNIgg},
+            followupExaminationNIga=#{followupExaminationNIga},
+            followupExaminationNIgm=#{followupExaminationNIgm},
+            followupExaminationNIge=#{followupExaminationNIge},
+            followupExaminationNIgd=#{followupExaminationNIgd},
+            followupExaminationXkLightChainStatus=#{followupExaminationXkLightChainStatus},
+            followupExaminationXYkLightChain=#{followupExaminationXYkLightChain},
+            followupExaminationXYnLightChain=#{followupExaminationXYnLightChain},
+            followupExaminationXYknLightChain=#{followupExaminationXYknLightChain},
+            followupExaminationNMkLightChain=#{followupExaminationNMkLightChain},
+            followupExaminationNMnLightChain=#{followupExaminationNMnLightChain},
+            followupExaminationH24=#{followupExaminationH24},
+            followupTotalProtein=#{followupTotalProtein},
+            followupGlobulinProtein=#{followupGlobulinProtein},
+            followupWhiteProtein=#{followupWhiteProtein},
+            followupAminotransferase=#{followupAminotransferase},
+            followupAst=#{followupAst},
+            followupGgt=#{followupGgt},
+            followupLdh=#{followupLdh},
+            followupUrea=#{followupUrea},
+            followupCr=#{followupCr},
+            followupCa=#{followupCa},
+            followupPhoshatase=#{followupPhoshatase},
+            followupBeta2GlobulinProtein=#{followupBeta2GlobulinProtein},
+            followupWhiteBloodCell=#{followupWhiteBloodCell},
+            followupNeutrophils=#{followupNeutrophils},
+            followupLymphocyte=#{followupLymphocyte},
+            followupHemoglobin=#{followupHemoglobin},
+            followupPlateletCount=#{followupPlateletCount},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+
+</mapper>

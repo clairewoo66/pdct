@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.PatientContactInfoMapper">
+
+    <sql id="columns">
+        id,patientId,hospitalId,livingState,agreeVisit,visitDate,deathDate,deathReason,contactNurse,operatorId,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+        patientId,hospitalId,livingState,agreeVisit,visitDate,deathDate,deathReason,contactNurse,operatorId,createDate,updateDate,deleted
+    </sql>
+
+    <select id="findByPatientId" resultType="PatientContactInfo">
+        SELECT * FROM t_patient_contactinfo WHERE patientId=#{patientId} AND hospitalId=#{hospitalId} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="PatientContactInfo"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_patient_contactinfo(
+        <include refid="insertColumns"/>
+        ) VALUES(#{patientId},#{hospitalId},#{livingState},#{agreeVisit},#{visitDate},#{deathDate},#{deathReason},#{contactNurse},
+        #{operatorId},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="PatientContactInfo">
+        UPDATE t_patient_contactinfo SET
+            livingState=#{livingState},
+            agreeVisit=#{agreeVisit},
+            visitDate=#{visitDate},
+            deathDate=#{deathDate},
+            deathReason=#{deathReason},
+            contactNurse=#{contactNurse},
+            operatorId=#{operatorId},
+            updateDate=#{updateDate},
+            deleted=#{deleted},
+            createDate=#{createDate}
+        WHERE  patientId=#{patientId} AND hospitalId=#{hospitalId}
+    </update>
+</mapper>

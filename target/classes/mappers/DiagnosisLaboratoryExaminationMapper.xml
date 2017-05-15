@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.DiagnosisLaboratoryExaminationMapper">
+
+    <sql id="columns">
+       id,diagnosisTopMP,diagnosisMPResult,diagnosisExaminationXueStatus,diagnosisExaminationXIgg,diagnosisExaminationXIga,diagnosisExaminationXIgm,diagnosisExaminationXIge,diagnosisExaminationXIgd,diagnosisExaminationXkLightChain,diagnosisExaminationXnLightChain,diagnosisExaminationNnStatus,diagnosisExaminationNkLightChain,diagnosisExaminationNnLightChain,diagnosisExaminationNIgg,diagnosisExaminationNIga,diagnosisExaminationNIgm,diagnosisExaminationNIge,diagnosisExaminationNIgd,diagnosisExaminationXkLightChainStatus,diagnosisExaminationXYkLightChain,diagnosisExaminationXYnLightChain,diagnosisExaminationXYknLightChain,diagnosisExaminationNStatus,diagnosisExaminationNMkLightChain,diagnosisExaminationNMnLightChain,diagnosisExaminationH24,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+       diagnosisTopMP,diagnosisMPResult, diagnosisExaminationXueStatus,diagnosisExaminationXIgg,diagnosisExaminationXIga,diagnosisExaminationXIgm,diagnosisExaminationXIge,diagnosisExaminationXIgd,diagnosisExaminationXkLightChain,diagnosisExaminationXnLightChain,diagnosisExaminationNnStatus,diagnosisExaminationNkLightChain,diagnosisExaminationNnLightChain,diagnosisExaminationNIgg,diagnosisExaminationNIga,diagnosisExaminationNIgm,diagnosisExaminationNIge,diagnosisExaminationNIgd,diagnosisExaminationXkLightChainStatus,diagnosisExaminationXYkLightChain,diagnosisExaminationXYnLightChain,diagnosisExaminationXYknLightChain,diagnosisExaminationNStatus,diagnosisExaminationNMkLightChain,diagnosisExaminationNMnLightChain,diagnosisExaminationH24,createDate,updateDate,deleted
+    </sql>
+
+    <select id="findById" resultType="DiagnosisLaboratoryExamination">
+        SELECT * FROM t_diagnosis_laboratory_examination WHERE id=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="DiagnosisLaboratoryExamination"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_diagnosis_laboratory_examination(
+        <include refid="insertColumns"/>
+        ) VALUES(#{diagnosisTopMP},#{diagnosisMPResult},#{diagnosisExaminationXueStatus},#{diagnosisExaminationXIgg},#{diagnosisExaminationXIga},#{diagnosisExaminationXIgm},
+        #{diagnosisExaminationXIge},#{diagnosisExaminationXIgd},#{diagnosisExaminationXkLightChain},#{diagnosisExaminationXnLightChain},
+        #{diagnosisExaminationNnStatus},#{diagnosisExaminationNkLightChain},#{diagnosisExaminationNnLightChain},#{diagnosisExaminationNIgg},
+        #{diagnosisExaminationNIga},#{diagnosisExaminationNIgm},#{diagnosisExaminationNIge},#{diagnosisExaminationNIgd},
+        #{diagnosisExaminationXkLightChainStatus},#{diagnosisExaminationXYkLightChain},#{diagnosisExaminationXYnLightChain},
+        #{diagnosisExaminationXYknLightChain},#{diagnosisExaminationNStatus},#{diagnosisExaminationNMkLightChain},#{diagnosisExaminationNMnLightChain},
+        #{diagnosisExaminationH24},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="DiagnosisLaboratoryExamination">
+        UPDATE t_diagnosis_laboratory_examination SET
+            diagnosisTopMP=#{diagnosisTopMP},
+            diagnosisMPResult=#{diagnosisMPResult},
+            diagnosisExaminationXueStatus=#{diagnosisExaminationXueStatus},
+            diagnosisExaminationXIgg=#{diagnosisExaminationXIgg},
+            diagnosisExaminationXIga=#{diagnosisExaminationXIga},
+            diagnosisExaminationXIgm=#{diagnosisExaminationXIgm},
+            diagnosisExaminationXIge=#{diagnosisExaminationXIge},
+            diagnosisExaminationXIgd=#{diagnosisExaminationXIgd},
+            diagnosisExaminationXkLightChain=#{diagnosisExaminationXkLightChain},
+            diagnosisExaminationXnLightChain=#{diagnosisExaminationXnLightChain},
+            diagnosisExaminationNnStatus=#{diagnosisExaminationNnStatus},
+            diagnosisExaminationNkLightChain=#{diagnosisExaminationNkLightChain},
+            diagnosisExaminationNnLightChain=#{diagnosisExaminationNnLightChain},
+            diagnosisExaminationNIgg=#{diagnosisExaminationNIgg},
+            diagnosisExaminationNIga=#{diagnosisExaminationNIga},
+            diagnosisExaminationNIgm=#{diagnosisExaminationNIgm},
+            diagnosisExaminationNIge=#{diagnosisExaminationNIge},
+            diagnosisExaminationNIgd=#{diagnosisExaminationNIgd},
+            diagnosisExaminationXkLightChainStatus=#{diagnosisExaminationXkLightChainStatus},
+            diagnosisExaminationXYkLightChain=#{diagnosisExaminationXYkLightChain},
+            diagnosisExaminationXYnLightChain=#{diagnosisExaminationXYnLightChain},
+            diagnosisExaminationXYknLightChain=#{diagnosisExaminationXYknLightChain},
+            diagnosisExaminationNStatus=#{diagnosisExaminationNStatus},
+            diagnosisExaminationNMkLightChain=#{diagnosisExaminationNMkLightChain},
+            diagnosisExaminationNMnLightChain=#{diagnosisExaminationNMnLightChain},
+            diagnosisExaminationH24=#{diagnosisExaminationH24},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+
+</mapper>

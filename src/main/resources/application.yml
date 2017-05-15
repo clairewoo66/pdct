@@ -1,0 +1,43 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+  datasource:
+    url: jdbc:mysql://${dbhost:192.168.96.17}:3306/${dbname:project2}?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    maxIdel: 2
+    maxActive: 30
+    validationQuery: select 1 from dual
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 3600000
+    minEvictableIdleTimeMillis: 18000000
+    type: com.alibaba.druid.pool.DruidDataSource
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+server:
+  port: ${port:8080}
+
+application:
+  message: Hello World
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  typeAliasesPackage: base.common.model
+
+info:
+  app:
+    name: project
+    description: A TEMPLATE OF PROJECT
+    version: 0.0.1
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG

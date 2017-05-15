@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.PatientInformedMapper">
+
+    <sql id="columns">
+        id,agreeInformedConsentStatus,informedConsentDate,contactNurse,operatorId,createDate,updateDate,deleted,patientId,hospitalId
+    </sql>
+
+    <sql id="insertColumns">
+        agreeInformedConsentStatus,informedConsentDate,contactNurse,operatorId,createDate,updateDate,deleted,patientId,hospitalId
+    </sql>
+
+    <select id="findByPatientId" resultType="PatientInformed">
+        SELECT * FROM t_patient_informed WHERE patientId=#{patientId} AND hospitalId=#{hospitalId} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="PatientInformed"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_patient_informed(
+        <include refid="insertColumns"/>
+        ) VALUES(#{agreeInformedConsentStatus},#{informedConsentDate},
+        #{contactNurse},#{operatorId},#{createDate},#{updateDate},#{deleted},#{patientId},#{hospitalId})
+    </insert>
+
+    <update id="updateEntry" parameterType="PatientInformed">
+        UPDATE t_patient_informed SET
+            agreeInformedConsentStatus=#{agreeInformedConsentStatus},
+            informedConsentDate=#{informedConsentDate},
+            contactNurse=#{contactNurse},
+            operatorId=#{operatorId},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   hospitalId=#{hospitalId} AND patientId=#{patientId}
+    </update>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.MmCureHistoryMapper">
+
+    <sql id="columns">
+        id,curePlanStepOther,curePlanStep,stemcelltransplantation,stemcelltransplantationDate,curePlan,startYear,startMonth,endYear,endMonth,cycleCount,evaluateAfterCure,evaluateRule,evaluateRuleOther,evaluateResultOther,evaluateResult,`index`,patientId,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+       curePlanStepOther,curePlanStep,stemcelltransplantation,stemcelltransplantationDate, curePlan,startYear,startMonth,endYear,endMonth,cycleCount,evaluateAfterCure,evaluateRule,evaluateRuleOther,evaluateResultOther,evaluateResult,`index`,patientId,createDate,updateDate,deleted
+    </sql>
+
+    <select id="listByPatientInfo" resultType="MmCureHistory">
+        SELECT * FROM t_mm_cure_history WHERE patientId=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="MmCureHistory"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_mm_cure_history(
+        <include refid="insertColumns"/>
+        ) VALUES(#{curePlanStepOther},#{curePlanStep},#{stemcelltransplantation},#{stemcelltransplantationDate},#{curePlan},#{startYear},#{startMonth},#{endYear},#{endMonth},#{cycleCount},#{evaluateAfterCure},#{evaluateRule},#{evaluateRuleOther},#{evaluateResultOther},#{evaluateResult},
+        #{index},#{patientId},#{createDate},#{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="MmCureHistory">
+        UPDATE t_mm_cure_history SET
+            curePlanStepOther=#{curePlanStepOther},
+            curePlanStep=#{curePlanStep},
+            stemcelltransplantation=#{stemcelltransplantation},
+            stemcelltransplantationDate=#{stemcelltransplantationDate},
+            curePlan=#{curePlan},
+            startYear=#{startYear},
+            startMonth=#{startMonth},
+            endYear=#{endYear},
+            endMonth=#{endMonth},
+            cycleCount=#{cycleCount},
+            evaluateAfterCure=#{evaluateAfterCure},
+            evaluateRule=#{evaluateRule},
+            evaluateRuleOther=#{evaluateRuleOther},
+            evaluateResultOther=#{evaluateResultOther},
+            evaluateResult=#{evaluateResult},
+            `index`=#{index},
+            patientId=#{patientId},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from t_mm_cure_history where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

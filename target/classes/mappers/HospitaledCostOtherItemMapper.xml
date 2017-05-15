@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.HospitaledCostOtherItemMapper">
+    <sql id="columns">
+        id,name,value,`order`,costId
+    </sql>
+
+    <sql id="insertColumns">
+        name,value,`order`,costId
+    </sql>
+
+    <select id="listByCostId" resultType="HospitaledCostOtherItem">
+        SELECT * FROM t_hospitaled_cost_other WHERE costId=#{id}
+    </select>
+
+    <insert id="addEntry" parameterType="HospitaledCostOtherItem"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_hospitaled_cost_other(
+        <include refid="insertColumns"/>
+        ) VALUES( #{name},#{value},#{order},#{costId})
+    </insert>
+
+    <update id="updateEntry" parameterType="HospitaledCostOtherItem">
+        UPDATE t_hospitaled_cost_other SET
+            name=#{name},
+            value=#{value},
+            order=#{order},
+            costId=#{costId}
+        WHERE   id=#{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from t_hospitaled_cost_other where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByCostId">
+        delete from t_hospitaled_cost_other where costId=#{id}
+    </delete>
+</mapper>

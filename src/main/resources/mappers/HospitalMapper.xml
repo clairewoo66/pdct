@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.HospitalMapper">
+    <sql id="columns">
+        id,name,code
+    </sql>
+    <!-- defined operation in base.core.mapper.BaseMapper-->
+    <select id="queryAll" resultType="Hospital">
+        select
+        <include refid="columns"/>
+        from t_hospital
+        <where>
+            <if test="filtersObj!=null">
+                <if test="filtersObj.groupOp.equalsIgnoreCase('AND')">
+                    <foreach collection="filtersObj.rules" item="item" open="(" separator='AND' close=")">
+                        <choose>
+                            <when test="'cn'.equals(item.op)">
+                                ${item.field} LIKE '%${item.data}%'
+                            </when>
+                            <when test="'eq'.equals(item.op)">
+                                ${item.field} = '${item.data}'
+                            </when>
+                        </choose>
+                    </foreach>
+                </if>
+                <if test="filtersObj.groupOp.equalsIgnoreCase('OR')">
+                    <foreach collection="filtersObj.rules" item="item" open="(" separator="OR" close=")">
+                        <choose>
+                            <when test="'cn'.equals(item.op)">
+                                ${item.field} LIKE '%${item.data}%'
+                            </when>
+                            <when test="'eq'.equals(item.op)">
+                                ${item.field} = '${item.data}'
+                            </when>
+                        </choose>
+                    </foreach>
+                </if>
+            </if>
+        </where>
+        <if test="sidx!=null">
+            ORDER BY ${sidx} ${sord}
+        </if>
+    </select>
+    <select id="findById" resultType="Hospital" parameterType="int">
+        select
+        <include refid="columns"/>
+        from t_hospital where id=#{id}
+    </select>
+
+    <select id="findByIds" resultType="Hospital" parameterType="int">
+        select
+        <include refid="columns"/>
+        from t_hospital where id IN (${ids})
+    </select>
+
+    <select id="findByField" resultType="Hospital">
+        select
+        <include refid="columns"/>
+        from t_hospital where ${field}=#{value} order by #{orderBy} asc
+    </select>
+    <select id="listByUserId" resultType="Hospital">
+        select DISTINCT(t_hospital.id),t_hospital.name,t_hospital.code
+        from t_hospital,t_user2hospital where t_user2hospital.user_id=#{id} AND t_user2hospital.hospital_id=t_hospital.id
+    </select>
+    <insert id="addEntry" parameterType="Hospital"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_hospital(name,code)
+        values(#{name},#{code})
+    </insert>
+    <update id="updateEntry" parameterType="Hospital">
+        update t_hospital set
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="code!=null and code!=''">
+            code=#{code}
+        </if>
+        where
+        id=#{id}
+    </update>
+    <delete id="deleteById" parameterType="int">
+        delete from t_hospital where id=#{id}
+    </delete>
+    <delete id="deleteByIds">
+        delete from t_hospital where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <!-- end defined operation in base.core.mapper.BaseMapper-->
+    <!--hospital vs user-->
+    <select id="findByUserID" resultType="Hospital">
+        select th.id,th.code,th.name
+        FROM t_user2hospital t,t_hospital th
+        WHERE t.user_id=#{userId} AND t.hospital_id = th.id
+    </select>
+    <insert id="addUser2Hospital">
+        INSERT INTO t_user2hospital(hospital_id,user_id) VALUES (#{hospitalId},#{userId})
+    </insert>
+    <delete id="removeHospitalByUser">
+        DELETE FROM t_user2hospital WHERE user_id =#{userId}
+    </delete>
+    <delete id="deleteHospitalByHospital">
+        DELETE FROM t_user2hospital WHERE hospital_id =#{HospitalID}
+    </delete>
+</mapper>

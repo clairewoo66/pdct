@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.patient.mapper.HospitaledBadinformationItemMapper">
+
+    <sql id="columns">
+        id,`index`,hospitaledId,badinformationName,badinformationDate,badinformationLevel,badinformationCctaeStatus,badinformationCctaeLevel,badinformationMedicineRealation,badinformationNonMedicineRealation,badinformationSpecialInformation,badinformationPregnant,badinformationOutcomeOfSubjects,badinformationCritical,createDate,updateDate,deleted
+    </sql>
+
+    <sql id="insertColumns">
+        `index`,hospitaledId,badinformationName,badinformationDate,badinformationLevel,badinformationCctaeStatus,badinformationCctaeLevel,badinformationMedicineRealation,badinformationNonMedicineRealation,badinformationSpecialInformation,badinformationPregnant,badinformationOutcomeOfSubjects,badinformationCritical,createDate,updateDate,deleted
+    </sql>
+
+    <select id="listByHospitaledInfo" resultType="HospitaledBadinformationItem">
+        SELECT * FROM t_hospitaled_badinformation_item WHERE hospitaledId=#{id} AND deleted=0
+    </select>
+
+    <insert id="addEntry" parameterType="HospitaledBadinformationItem"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_hospitaled_badinformation_item(
+        <include refid="insertColumns"/>
+        ) VALUES(#{index},#{hospitaledId},#{badinformationName},#{badinformationDate},#{badinformationLevel},
+        #{badinformationCctaeStatus},#{badinformationCctaeLevel},#{badinformationMedicineRealation},
+        #{badinformationNonMedicineRealation},#{badinformationSpecialInformation},
+        #{badinformationPregnant},#{badinformationOutcomeOfSubjects},#{badinformationCritical},#{createDate},
+        #{updateDate},#{deleted})
+    </insert>
+
+    <update id="updateEntry" parameterType="HospitaledBadinformationItem">
+        UPDATE t_hospitaled_badinformation_item SET
+            hospitaledId=#{hospitaledId},
+            badinformationName=#{badinformationName},
+            badinformationDate=#{badinformationDate},
+            badinformationLevel=#{badinformationLevel},
+            badinformationCctaeStatus=#{badinformationCctaeStatus},
+            badinformationCctaeLevel=#{badinformationCctaeLevel},
+            badinformationMedicineRealation=#{badinformationMedicineRealation},
+            badinformationNonMedicineRealation=#{badinformationNonMedicineRealation},
+            badinformationSpecialInformation=#{badinformationSpecialInformation},
+            badinformationPregnant=#{badinformationPregnant},
+            badinformationOutcomeOfSubjects=#{badinformationOutcomeOfSubjects},
+            badinformationCritical=#{badinformationCritical},
+            updateDate=#{updateDate},
+            deleted=#{deleted}
+        WHERE   id=#{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from t_hospitaled_badinformation_item where id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

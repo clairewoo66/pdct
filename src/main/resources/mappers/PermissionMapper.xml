@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.common.mapper.PermissionMapper">
+
+    <sql id="columns">
+        id,name,code,fkmenuid,description
+    </sql>
+
+    <select id="findByMenu" resultType="Permission">
+        SELECT
+        <include refid="columns"/>
+        from t_permission where fkmenuid=#{menuId}
+    </select>
+
+    <select id="findByRole" resultType="Permission">
+        select DISTINCT(t_permission.id),name,code,fkmenuid,description
+        FROM t_permission,t_role2permission
+        WHERE t_role2permission.fkroleid=#{roleId} AND t_role2permission.fkpermissionid=t_permission.id
+    </select>
+
+    <delete id="removePermissionByRole">
+        DELETE FROM t_role2permission WHERE fkroleid=#{roleId}
+    </delete>
+    <insert id="addPermission2Role">
+        INSERT INTO t_role2permission(fkroleid,fkpermissionid) VALUES (#{roleId},#{permissionId})
+    </insert>
+
+    <delete id="deleteAuthByMenu">
+        DELETE FROM t_role2permission WHERE fkpermissionid IN ( SELECT id FROM t_permission WHERE fkmenuid=#{menuid})
+    </delete>
+</mapper>
